@@ -14,8 +14,9 @@ fastapi==0.135.3
 greenlet==3.4.0
 h11==0.16.0
 idna==3.11
-limits==5.8.0
-packaging==26.1
+importlib_resources==7.1.0
+limits==3.7.0
+packaging==23.2
 passlib==1.7.4
 psycopg2-binary==2.9.11
 pyasn1==0.6.3
