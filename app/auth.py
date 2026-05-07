@@ -48,3 +48,5 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
     if user is None:
         raise credentials_exception
     return user
+def get_password_hash(password: str) -> str:
+    return pwd_context.hash(password)
