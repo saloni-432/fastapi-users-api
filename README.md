@@ -1,5 +1,7 @@
 # FastAPI User CRUD API
 
+[![Tests](https://github.com/saloni-432/fastapi-users-api/actions/workflows/tests.yml/badge.svg)](https://github.com/saloni-432/fastapi-users-api/actions/workflows/tests.yml)
+
 A production-ready REST API built with FastAPI, PostgreSQL and Docker.
 
 ## 🔗 Links
