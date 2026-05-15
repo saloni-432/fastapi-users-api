@@ -2,7 +2,7 @@ name: Docker CI
 
 on:
   workflow_run:
-    workflows: ["Tests"]
+    workflows: ["Run Tests"]
     types:
       - completed
 
