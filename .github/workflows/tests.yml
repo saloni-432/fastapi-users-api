@@ -26,6 +26,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install ruff
 
+      - name: Auto-fix lint issues
+        run: ruff check . --fix
+
       - name: Run Ruff Linter
         run: ruff check .
 
