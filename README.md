@@ -14,6 +14,7 @@ A production-ready REST API built with FastAPI, PostgreSQL and Docker.
 ## Features
 - User CRUD operations
 - PostgreSQL database
+- Redis caching for faster API responses
 - Dockerized setup
 - Pydantic validation
 - SQLAlchemy ORM
@@ -30,7 +31,6 @@ Open: http://localhost:8000/docs
 ## 🚀 Endpoints
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
-| POST | `/auth/token` | Login, get JWT token | ❌ |
 | GET | `/auth/me` | Get current user | ✅ |
 | POST | `/auth/register-bg` | Register + background task | ✅ |
 | GET | `/users` | List all users | ✅ |
