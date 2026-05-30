@@ -7,8 +7,6 @@
 A production-ready REST API built with FastAPI, PostgreSQL and Docker.
 
 ## 🔗 Links
-- **Live API:** https://fastapi-users-api-production.up.railway.app
-- **API Docs:** https://fastapi-users-api-production.up.railway.app/docs
 - **GitHub:** https://github.com/saloni-432/fastapi-users-api
 
 ## Features
