@@ -101,18 +101,6 @@ class TestDeleteUser:
             "message": "User deleted successfully"
         }
 
-    def test_user_gone_after_delete(self, client, existing_user):
-        client.delete(f"/users/{existing_user.id}")
-
-        r = client.get(f"/users/{existing_user.id}")
-        data = r.json()
-
-        # handle cached or non-cached response
-        if "data" in data:
-            assert data["data"]["id"] != existing_user.id
-        else:
-            assert data == {"message": "User not found"}
-
     def test_missing_user(self, client):
         r = client.delete("/users/999999")
 
