@@ -3,13 +3,14 @@ from sqlalchemy.orm import Session
 from app.core.database import SessionLocal
 from app.crud import user_crud
 from app.schemas.user_schemas import UserCreate, UserUpdate
-import redis, json
+import redis, json, os
 
-# Docker: host='redis'
-# Local: host='localhost'
+REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
+REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
+
 redis_client = redis.Redis(
-    host='redis',
-    port=6379,
+    host=REDIS_HOST,
+    port=REDIS_PORT,
     db=0,
     decode_responses=True
 )
