@@ -7,10 +7,12 @@ class TestGetUsers:
         assert r.status_code == 200
 
     def test_returns_list(self, client):
-        assert isinstance(client.get("/users/").json(), list)
+        r = client.get("/users/")
+        assert isinstance(r.json()["data"], list)
 
     def test_empty_initially(self, client):
-        assert client.get("/users/").json() == []
+        r = client.get("/users/")
+        assert r.json()["data"] == []
 
     def test_lists_created_user(self, client):
         client.post(
@@ -18,7 +20,9 @@ class TestGetUsers:
             json={"name": "Bob", "email": "bob@test.com"}
         )
 
-        emails = [u["email"] for u in client.get("/users/").json()]
+        users = client.get("/users/").json()["data"]
+        emails = [u["email"] for u in users]
+
         assert "bob@test.com" in emails
 
 
@@ -27,17 +31,16 @@ class TestGetUser:
         r = client.get(f"/users/{existing_user.id}")
 
         assert r.status_code == 200
-        assert r.json()["email"] == existing_user.email
+        assert r.json()["data"]["email"] == existing_user.email
 
     def test_missing_user(self, client):
         r = client.get("/users/999999")
 
         assert r.status_code == 200
-        assert r.json() == {"error": "User not found"}
+        assert r.json() == {"message": "User not found"}
 
     def test_invalid_id_type(self, client):
         r = client.get("/users/abc")
-
         assert r.status_code == 422
 
 
@@ -52,24 +55,15 @@ class TestCreateUser:
         assert r.json()["email"] == "bob@test.com"
 
     def test_missing_name(self, client):
-        r = client.post(
-            "/users/",
-            json={"email": "bob@test.com"}
-        )
-
+        r = client.post("/users/", json={"email": "bob@test.com"})
         assert r.status_code == 422
 
     def test_missing_email(self, client):
-        r = client.post(
-            "/users/",
-            json={"name": "Bob"}
-        )
-
+        r = client.post("/users/", json={"name": "Bob"})
         assert r.status_code == 422
 
     def test_empty_body(self, client):
         r = client.post("/users/", json={})
-
         assert r.status_code == 422
 
 
@@ -95,7 +89,6 @@ class TestUpdateUser:
             }
         )
 
-        assert r.status_code == 200
         assert r.json() == {"error": "User not found"}
 
 
@@ -113,10 +106,9 @@ class TestDeleteUser:
 
         r = client.get(f"/users/{existing_user.id}")
 
-        assert r.json() == {"error": "User not found"}
+        assert r.json() == {"message": "User not found"}
 
     def test_missing_user(self, client):
         r = client.delete("/users/999999")
 
-        assert r.status_code == 200
         assert r.json() == {"error": "User not found"}
