@@ -2,13 +2,17 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-DATABASE_URL = os.environ.get(
+DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql://postgres:zCbfDRKdzwdYJuFVNaaAXFueXoPXCIRo@shuttle.proxy.rlwy.net:13736/railway"
+    "postgresql://admin:password@db:5432/usersdb"
 )
 
 engine = create_engine(DATABASE_URL)
 
-SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
+SessionLocal = sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=engine
+)
 
 Base = declarative_base()

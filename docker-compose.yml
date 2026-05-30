@@ -12,10 +12,22 @@ services:
     ports:
       - "5432:5432"
 
+  redis:
+    image: redis:7
+    container_name: fastapi_redis
+    ports:
+      - "6379:6379"
+
   api:
     build: .
     container_name: fastapi_app
+
     depends_on:
       - db
+      - redis
+
+    environment:
+      DATABASE_URL: postgresql://admin:password@db:5432/usersdb
+
     ports:
       - "8000:8000"
