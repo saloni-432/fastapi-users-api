@@ -1,4 +1,4 @@
-import jwt
+from jose import JWTError, jwt
 import pytest
 from app.auth import (
     verify_password,
@@ -27,20 +27,40 @@ class TestPasswordHashing:
 
 class TestJWTTokens:
     def test_token_is_string(self):
-        token = create_access_token({"sub": "alice"})
+        token = create_access_token({
+            "username": "alice",
+            "role": "user",
+        })
+
         assert isinstance(token, str)
 
     def test_token_contains_subject(self):
-        token = create_access_token({"sub": "alice"})
+        token = create_access_token({
+            "username": "alice",
+            "role": "user",
+        })
+
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+
         assert payload["sub"] == "alice"
+        assert payload["role"] == "user"
+        assert payload["type"] == "access"
 
     def test_token_contains_expiry(self):
-        token = create_access_token({"sub": "alice"})
+        token = create_access_token({
+            "username": "alice",
+            "role": "user",
+        })
+
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+
         assert "exp" in payload
 
     def test_wrong_secret_raises(self):
-        token = create_access_token({"sub": "alice"})
-        with pytest.raises(jwt.InvalidTokenError):
+        token = create_access_token({
+            "username": "alice",
+            "role": "user",
+        })
+
+        with pytest.raises(JWTError):
             jwt.decode(token, "WRONG_SECRET", algorithms=[ALGORITHM])
